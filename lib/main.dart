@@ -33,7 +33,10 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
               direction: DismissDirection.up,
               key: UniqueKey(),
               onDismissed: (_) {
-                pages[0] = Container();
+                pages[0] = const SizedBox(
+                  width: 0,
+                  height: 0,
+                );
               },
               child: pages[0],
             )

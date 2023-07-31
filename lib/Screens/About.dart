@@ -8,6 +8,16 @@ class About extends StatefulWidget {
 }
 
 class _AboutState extends State<About> {
+  var key = GlobalKey();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPersistentFrameCallback((timeStamp) {
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +34,7 @@ class _AboutState extends State<About> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Container(
                   width: 25,
                   height: 3,
@@ -32,37 +42,82 @@ class _AboutState extends State<About> {
                 ),
               ),
               Expanded(
-                child: Row(
+                child: Stack(
+                  key: key,
                   children: [
-                    Expanded(
-                      flex: 2,
-                      child: Column(
-                        children: [
-                          Flexible(
-                            flex: 1,
-                            child: Container(
-                              color: Colors.pink,
-                              width: double.infinity,
-                              height: double.infinity,
-                            ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: SizedBox(
+                        width: key.currentContext == null
+                            ? 50
+                            : (key.currentContext!.findRenderObject()!
+                                        as RenderBox)
+                                    .size
+                                    .width /
+                                2,
+                        height: key.currentContext == null
+                            ? 50
+                            : (key.currentContext!.findRenderObject()!
+                                        as RenderBox)
+                                    .size
+                                    .height /
+                                2,
+                        child: InkWell(
+                          onTap: () {
+                            print("ss");
+                            setState(() {});
+                          },
+                          child: Image.asset(
+                            "res/a1.jpg",
+                            fit: BoxFit.cover,
+                            color: Colors.blue.shade200,
+                            colorBlendMode: BlendMode.modulate,
                           ),
-                          Flexible(
-                            flex: 1,
-                            child: Container(
-                              color: Colors.blue,
-                              width: double.infinity,
-                              height: double.infinity,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        color: Colors.green,
-                        width: double.infinity,
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: SizedBox(
+                        width: key.currentContext == null
+                            ? 50
+                            : (key.currentContext!.findRenderObject()!
+                                        as RenderBox)
+                                    .size
+                                    .width /
+                                2,
+                        height: key.currentContext == null
+                            ? 50
+                            : (key.currentContext!.findRenderObject()!
+                                        as RenderBox)
+                                    .size
+                                    .height /
+                                2,
+                        child: Image.asset(
+                          "res/a3.jpg",
+                          fit: BoxFit.cover,
+                          color: Colors.purple.shade900,
+                          colorBlendMode: BlendMode.modulate,
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: SizedBox(
+                        width: key.currentContext == null
+                            ? 50
+                            : (key.currentContext!.findRenderObject()!
+                                        as RenderBox)
+                                    .size
+                                    .width /
+                                2,
                         height: double.infinity,
+                        child: Image.asset(
+                          "res/a2.jpg",
+                          fit: BoxFit.cover,
+                          color: Color(0xffff50fd),
+                          colorBlendMode: BlendMode.modulate,
+                        ),
                       ),
                     )
                   ],
