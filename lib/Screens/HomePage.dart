@@ -1,6 +1,10 @@
 import 'package:c_pm/Screens/About.dart';
+import 'package:c_pm/Screens/Statistic.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'Photos.dart';
+import 'Skills.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,6 +15,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var titles = ["About", "Statistic", "Photos", "Skills"];
+  var pages = [
+    const About(),
+    const Statistic(),
+    const Photos(),
+    const Skills()
+  ];
   var selected = 0;
 
   @override
@@ -49,12 +59,16 @@ class _HomePageState extends State<HomePage> {
                               Row(
                                 children: [
                                   Container(
-                                    color: i == selected ? Colors.pink : Colors.transparent,
+                                    color: i == selected
+                                        ? Colors.pink
+                                        : Colors.transparent,
                                     width: 5,
                                   ),
                                   Expanded(
                                     child: Container(
-                                      color: i == selected ? Colors.white : Colors.transparent,
+                                      color: i == selected
+                                          ? Colors.white
+                                          : Colors.transparent,
                                     ),
                                   )
                                 ],
@@ -74,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                 flex: 5,
                 child: GetMaterialApp(
                   debugShowCheckedModeBanner: false,
-                  home: About(),
+                  home: pages[selected],
                 ),
               ),
             ],
