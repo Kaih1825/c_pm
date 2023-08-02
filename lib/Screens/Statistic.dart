@@ -45,10 +45,7 @@ class _StatisticState extends State<Statistic> with TickerProviderStateMixin {
                         padding: EdgeInsets.only(top: 40, bottom: 20),
                         child: Text(
                           "The numbers of WorldSkills conpetitors",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
+                          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       ),
                       Expanded(
@@ -57,35 +54,25 @@ class _StatisticState extends State<Statistic> with TickerProviderStateMixin {
                           children: const [
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: Diagram(
-                                  value: 848,
-                                  text: "WorldSkills\nCalgary 2009"),
+                              child: Diagram(value: 848, text: "WorldSkills\nCalgary 2009"),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: Diagram(
-                                  value: 931, text: "WorldSkills\nLondon 2011"),
+                              child: Diagram(value: 931, text: "WorldSkills\nLondon 2011"),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: Diagram(
-                                  value: 1004,
-                                  text: "WorldSkills\nLeipzig 2013"),
+                              child: Diagram(value: 1004, text: "WorldSkills\nLeipzig 2013"),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: Diagram(
-                                  value: 1186,
-                                  text: "WorldSkills\nSão Paulo 2015"),
+                              child: Diagram(value: 1186, text: "WorldSkills\nSão Paulo 2015"),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: Diagram(
-                                  value: 1253,
-                                  text: "WorldSkills\nAbu Dhabi 2017"),
+                              child: Diagram(value: 1253, text: "WorldSkills\nAbu Dhabi 2017"),
                             ),
-                            Diagram(
-                                value: 1355, text: "WorldSkills\nKazan 2019"),
+                            Diagram(value: 1355, text: "WorldSkills\nKazan 2019"),
                           ],
                         ),
                       ),
@@ -122,18 +109,15 @@ class Diagram extends StatefulWidget {
 }
 
 class _DiagramState extends State<Diagram> with TickerProviderStateMixin {
-  late var animation =
-      AnimationController(vsync: this, duration: Duration(seconds: 1));
-  late var tween = Tween(begin: 0.0, end: 1.0).animate(animation);
+  late var animation = AnimationController(vsync: this, duration: Duration(seconds: 1));
+  var isDispose = false;
   var height = 50.0;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      height =
-          (key.currentContext!.findRenderObject() as RenderBox).size.height /
-              1.6;
+      height = (key.currentContext!.findRenderObject() as RenderBox).size.height / 1.8;
       setState(() {});
       animation.forward();
       animation.addListener(() {
@@ -144,10 +128,9 @@ class _DiagramState extends State<Diagram> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
+    isDispose = true;
     animation.stop();
-    animation.dispose();
+    super.dispose();
   }
 
   @override
@@ -155,7 +138,7 @@ class _DiagramState extends State<Diagram> with TickerProviderStateMixin {
     return Column(
       children: [
         Text(
-          "${(widget.value * animation.value).toInt()}",
+          "${(widget.value * animation!.value).toInt()}",
           style: const TextStyle(
             color: Colors.white,
             fontSize: 18,

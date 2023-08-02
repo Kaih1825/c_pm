@@ -18,7 +18,7 @@ class _PhotosState extends State<Photos> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "Statistic",
+              "Photos",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
             ),
             Padding(
@@ -154,8 +154,7 @@ class _PhtotBlockState extends State<PhtotBlock> {
               ),
             );
           },
-          openBuilder: (BuildContext context,
-              void Function({Object? returnValue}) action) {
+          openBuilder: (BuildContext context, void Function({Object? returnValue}) action) {
             return FullScreenPhoto(image: widget.image);
           },
         ));

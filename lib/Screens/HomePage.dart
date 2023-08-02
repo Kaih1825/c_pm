@@ -15,17 +15,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var titles = ["About", "Statistic", "Photos", "Skills"];
-  var pages = [
-    const About(),
-    const Statistic(),
-    const Photos(),
-    const Skills()
-  ];
+  var pages = [const About(), const Statistic(), const Photos(), const Skills()];
   var selected = 0;
+  var controller = PageController();
 
   @override
   void initState() {
     // TODO: implement initState
+    controller.addListener(() {
+      selected = controller.page!.toInt();
+      setState(() {});
+    });
     super.initState();
   }
 
@@ -50,6 +50,8 @@ class _HomePageState extends State<HomePage> {
                       InkWell(
                         onTap: () {
                           selected = i;
+                          // controller.jumpToPage(selected);
+                          controller.animateToPage(selected, duration: const Duration(milliseconds: 300), curve: Curves.linear);
                           setState(() {});
                         },
                         child: SizedBox(
@@ -59,16 +61,12 @@ class _HomePageState extends State<HomePage> {
                               Row(
                                 children: [
                                   Container(
-                                    color: i == selected
-                                        ? Colors.pink
-                                        : Colors.transparent,
+                                    color: i == selected ? Colors.pink : Colors.transparent,
                                     width: 5,
                                   ),
                                   Expanded(
                                     child: Container(
-                                      color: i == selected
-                                          ? Colors.white
-                                          : Colors.transparent,
+                                      color: i == selected ? Colors.white : Colors.transparent,
                                     ),
                                   )
                                 ],
@@ -88,7 +86,11 @@ class _HomePageState extends State<HomePage> {
                 flex: 5,
                 child: GetMaterialApp(
                   debugShowCheckedModeBanner: false,
-                  home: pages[selected],
+                  home: PageView(
+                    controller: controller,
+                    scrollDirection: Axis.vertical,
+                    children: pages,
+                  ),
                 ),
               ),
             ],
