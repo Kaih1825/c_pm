@@ -1,7 +1,6 @@
 import 'package:c_pm/Screens/About.dart';
 import 'package:c_pm/Screens/Statistic.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'Photos.dart';
 import 'Skills.dart';
@@ -84,13 +83,17 @@ class _HomePageState extends State<HomePage> {
               ),
               Expanded(
                 flex: 5,
-                child: GetMaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  home: PageView(
-                    controller: controller,
-                    scrollDirection: Axis.vertical,
-                    children: pages,
-                  ),
+                // child: GetMaterialApp(
+                //   debugShowCheckedModeBanner: false,
+                //   home: PageView(
+                //     controller: controller,
+                //     scrollDirection: Axis.vertical,
+                //     children: pages,
+                //   ),
+                child: PageView(
+                  controller: controller,
+                  scrollDirection: Axis.vertical,
+                  children: pages,
                 ),
               ),
             ],

@@ -1,4 +1,3 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
 class Photos extends StatefulWidget {
@@ -138,26 +137,29 @@ class PhtotBlock extends StatefulWidget {
 class _PhtotBlockState extends State<PhtotBlock> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Scaffold(
+      body: Padding(
         padding: const EdgeInsets.all(5.0),
-        child: OpenContainer(
-          closedBuilder: (BuildContext context, void Function() action) {
-            return SizedBox(
-              width: double.infinity,
-              height: double.infinity,
-              child: Hero(
-                tag: "${widget.image}Photo",
-                child: Image.asset(
-                  "res/s${widget.image}.jpeg",
-                  fit: BoxFit.cover,
-                ),
+        child: InkWell(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+              return FullScreenPhoto(image: widget.image);
+            }));
+          },
+          child: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: Hero(
+              tag: "${widget.image}Photo",
+              child: Image.asset(
+                "res/s${widget.image}.jpeg",
+                fit: BoxFit.cover,
               ),
-            );
-          },
-          openBuilder: (BuildContext context, void Function({Object? returnValue}) action) {
-            return FullScreenPhoto(image: widget.image);
-          },
-        ));
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -178,18 +180,23 @@ class _FullScreenPhotoState extends State<FullScreenPhoto> {
           SizedBox(
             width: double.infinity,
             height: double.infinity,
-            child: Image.asset(
-              "res/s${widget.image}.jpeg",
-              fit: BoxFit.cover,
+            child: Hero(
+              tag: "${widget.image}Photo",
+              child: Image.asset(
+                "res/s${widget.image}.jpeg",
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-          Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(Icons.close_sharp)),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.close_sharp)),
+            ),
           )
         ],
       ),
