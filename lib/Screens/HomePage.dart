@@ -12,20 +12,33 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   var titles = ["About", "Statistic", "Photos", "Skills"];
   var pages = [const About(), const Statistic(), const Photos(), const Skills()];
   var selected = 0;
   var controller = PageController();
+  late var animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
+  late var offset = Tween(begin: 0.0, end: 0.0).animate(animationController);
+  late var offsetValue = 0.0;
 
   @override
   void initState() {
     // TODO: implement initState
     controller.addListener(() {
-      selected = controller.page!.toInt();
+      offsetValue = controller.page! * 50;
+      setState(() {});
+    });
+    animationController.addListener(() {
+      offsetValue = offset.value;
       setState(() {});
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -45,39 +58,54 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.pink,
                       width: 200,
                     ),
-                    for (var i = 0; i < titles.length; i++)
-                      InkWell(
-                        onTap: () {
-                          selected = i;
-                          // controller.jumpToPage(selected);
-                          controller.animateToPage(selected, duration: const Duration(milliseconds: 300), curve: Curves.linear);
-                          setState(() {});
-                        },
-                        child: SizedBox(
-                          height: 50,
-                          child: Stack(
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    color: i == selected ? Colors.pink : Colors.transparent,
-                                    width: 5,
+                    Stack(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: offsetValue),
+                          child: SizedBox(
+                            height: 50,
+                            child: Row(
+                              children: [
+                                Container(
+                                  color: Colors.pink,
+                                  width: 5,
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    color: Colors.white,
                                   ),
-                                  Expanded(
-                                    child: Container(
-                                      color: i == selected ? Colors.white : Colors.transparent,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Align(
-                                alignment: Alignment.center,
-                                child: Text(titles[i]),
-                              ),
-                            ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
+                        Column(
+                          children: [
+                            for (var i = 0; i < titles.length; i++)
+                              InkWell(
+                                onTap: () {
+                                  offset = Tween(begin: 50.0 * selected, end: 50.0 * i).animate(animationController);
+                                  if (animationController.status == AnimationStatus.completed) {
+                                    animationController.reset();
+                                  }
+                                  animationController.forward();
+                                  selected = i;
+                                  // controller.jumpToPage(selected);
+                                  controller.animateToPage(selected, duration: const Duration(milliseconds: 300), curve: Curves.linear);
+                                  setState(() {});
+                                },
+                                child: SizedBox(
+                                  height: 50,
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(titles[i]),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
